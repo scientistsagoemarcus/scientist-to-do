@@ -14,7 +14,7 @@ dotenv.config();
 const app =express();
 
 //choosing a port to start our server
-const Port =5000;
+const PORT = process.env.PORT?? 5000;
 
 
 
@@ -31,12 +31,12 @@ if(error){
 //else logout the connection
 else{
     console.log("database connnection Successful");
+
+    app.listen(PORT,()=>
+    console.log(`The server is ready and running:${PORT}`)
+    );
 }
 });
 
-
-app.listen(Port,()=>
-console.log(`The server is ready and running:${Port}`)
-);
 
 
