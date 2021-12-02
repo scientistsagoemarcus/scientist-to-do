@@ -42,6 +42,46 @@ req.json(result);
 
 });
 
+app.patch("/todo/:todoID",async (req, res)=>{
+    // find and update a model by 
+    //passing in the id, the data to be updated, and set the new option to true
+    const result = await Todo.findByIdAndUpdate(
+        req.params.todoID,
+        {...req.body},
+        {new: true}
+    );
+    res.json(result);
+});
+
+app.put("/todo/:todoID",async (req, res)=>{
+    // find and update a model by 
+    //passing in the id, the data to be updated, and set the new option to true
+    const result = await Todo.findByIdAndUpdate(
+        req.params.todoID, //id of the document
+        {...req.body}, // data to be replaced
+        {new: true, overwrite:true} // options
+    );
+    res.json(result);
+});
+
+app.delete("/todo/:todoID",async (req, res)=>{
+    // find and update a model by 
+    //passing in the id and a callback function
+    // that takes in the error and the deletedDocument
+    const result = await Todo.findByIdAndDelete(
+        req.params.todoID,
+        (error, deletedTodo) =>{
+            if(error){
+                console.log(`Failed to delete todo: ${error}`);
+                res.send(`Failed to delete todo: ${error}`);
+            } else{
+                console.log("Deleted", deletedTodo);
+                res.send(`Todo with_id: ${req.params.todoID} has been deleted`);
+            }
+        }
+    );
+    res.json(result);
+});
 //
 mongoose.connect(process.env.MONGO_DB_CONSTRING, (error)=>{
 if(error){
